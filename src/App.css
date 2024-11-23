@@ -1,0 +1,16 @@
+:root {
+	--gray: rgb(231, 231, 231);
+	--Orange: rgb(255, 150, 58);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+
+.Container {
+	height: 100vh;
+	background-color: rgb(245, 245, 245);
+}
