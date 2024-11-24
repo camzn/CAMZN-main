@@ -19,7 +19,7 @@ export default function User() {
 			<div className="bg-[#FF973D] relative w-full h-[200px] rounded-xl">
 				<div className="flex gap-5 absolute -bottom-[60px] left-[60px] w-full">
 					<div className="relative">
-						<span className="absolute inline-block rounded-full w-[40px] h-[40px] bg-green-600 right-0 bottom-0 outline outline-[3px] outline-[#F3F3F3]"></span>
+						<span className="absolute inline-block rounded-full w-[30px] h-[30px] bg-green-600 right-1 bottom-1 outline outline-[3px] outline-[#F3F3F3]"></span>
 						<img
 							src={account.avatarURL}
 							className="w-[120px] h-[120px] rounded-full outline outline-[4px] outline-[#F3F3F3]"
