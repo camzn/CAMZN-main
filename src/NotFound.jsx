@@ -11,7 +11,7 @@ export default function NotFound() {
 			<Link
 				to={"/"}
 				title="Về trang chủ"
-				className="font-bold text-lg text-white bg-[#FF973D] hover:bg-[#d57d30] px-3 py-2 rounded-xl transition-all duration-150"
+				className="font-bold text-lg text-white bg-[#FF973D] hover:brightness-75 px-3 py-2 rounded-xl transition-all duration-150"
 			>
 				Về trang chủ
 			</Link>
