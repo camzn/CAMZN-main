@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router";
 import { PiOrangeFill } from "react-icons/pi";
 import { FaBell } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
+import Colors from "./Colors.jsx";
 
 const pages = [
 	{
@@ -28,6 +29,8 @@ const pages = [
 	},
 ];
 
+
+
 export default function Sidebar() {
 	const location = useLocation();
 
@@ -39,14 +42,14 @@ export default function Sidebar() {
 
 	return (
 		<div className="flex flex-col bg-white w-[65px] h-full shadow-lg py-2 justify-between items-center">
-			<Link to={"/"}><PiOrangeFill className="text-[#FF973D] text-[50px]" /></Link>
+			<Link to={"/"}><PiOrangeFill className={`text-[${Colors.Organe}] text-[50px]`} /></Link>
 			
 			<div className="flex flex-col gap-3">
 				{pages.map((p, i) => (
 					<Link
 						to={p.href}
 						key={i}
-						className={`${location.pathname === p.href ? "bg-[#FF973D] text-white" : "bg-[#E7E7E7] text-[#B6B6B6]"} rounded-xl p-2 items-center justify-center text-2xl transition-all duration-150`}
+						className={`${location.pathname === p.href ? `bg-[${Colors.Organe}] text-white` : `bg-[${Colors.Gray}] text-[${Colors.DarkGray}]`} rounded-xl p-2 items-center justify-center text-2xl transition-all duration-150`}
 						title={p.title}
 					>
 						{p.icon}
