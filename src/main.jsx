@@ -9,6 +9,8 @@ import Home from "./pages/Home";
 import Chat from "./pages/Chat";
 import Notifications from "./pages/Notifications";
 import Friends from "./pages/Friends";
+import User from "./pages/User";
+import NotFound from "./NotFound";
 
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
@@ -16,9 +18,11 @@ createRoot(document.getElementById("root")).render(
 			<Routes>
 				<Route path="/" element={<App />}>
 					<Route path="/" element={<Home />} />
+					<Route path="*" element={<NotFound />} />
 					<Route path="/chat" element={<Chat />} />
 					<Route path="/friends" element={<Friends />} />
 					<Route path="/notifications" element={<Notifications />} />
+					<Route path="/users/:username" element={<User />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>
