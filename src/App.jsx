@@ -20,8 +20,10 @@ function App() {
 		<div className="flex flex-row relative justify-between w-full h-screen bg-[#F3F3F3] overflow-hidden">
 			<Sidebar />
 
-			<div className="w-full h-full m-4 overflow-x-hidden overflow-y-auto">
-				<Outlet />
+			<div className="w-full h-full overflow-x-hidden overflow-y-auto">
+				<div className="m-4">
+					<Outlet />
+				</div>
 			</div>
 		</div>
 	);

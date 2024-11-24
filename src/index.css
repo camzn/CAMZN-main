@@ -8,3 +8,24 @@
 	box-sizing: border-box;
 	font-family: sans-serif;
 }
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	margin: 5px;
+	border-radius: 10px;
+	background: #d3d3d3;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #868686;
+	transition: all;
+	transition-duration: 150ms;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #868686;
+}
