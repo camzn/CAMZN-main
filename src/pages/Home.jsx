@@ -1,4 +1,4 @@
-import Article from "./Article"
+import Article from "../components/Article"
 
 export default function Home() {
     const post = {
