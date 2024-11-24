@@ -81,7 +81,7 @@ export const Content = forwardRef(function DropdownContent(
 	children = Children.map(children, (child) => cloneElement(child, { closeMenu }));
 
 	return (
-		<div ref={ref} className={`absolute left-4 ${className}`}>
+		<div ref={ref} className={`absolute z-[100] left-4 ${className}`}>
 			{children}
 		</div>
 	);
