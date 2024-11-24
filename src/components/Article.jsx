@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
-import { FaRegHeart } from "react-icons/fa";
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { IoChatbox } from "react-icons/io5";
 import { IoIosShareAlt } from "react-icons/io";
-import { IoReorderThreeOutline } from "react-icons/io5";
-import { FcLike } from "react-icons/fc";
+import { HiDotsHorizontal } from "react-icons/hi";
 
 const VIDEO_EXTENSIONS = [".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".mp4"];
 const IMAGE_EXTENSIONS = [".gif", ".jpg", ".jpeg", ".png"];
@@ -18,115 +17,122 @@ function isImage(name) {
 	return IMAGE_EXTENSIONS.some((ext) => name.endsWith(ext));
 }
 
-export default function Article(props) {
-	let [likes, setLikes] = useState(props.information.likes);
-	let [isLike, setIsLikes] = useState(props.information.isLike);
+export default function Article({ post }) {
+	let [likes, setLikes] = useState(post.likes);
+	let [isLike, setIsLikes] = useState(post.isLike);
 
-	function likeButton() {
-		if (isLike) {
-			setLikes((c) => c - 1);
-		} else {
-			setLikes((c) => c + 1);
-		}
-
+	function handleLike() {
 		setIsLikes(!isLike);
+
+		if (!isLike) {
+			setLikes(likes + 1);
+		} else {
+			setLikes(likes - 1);
+		}
 	}
 
+	const mediaClassName =
+		"w-full grid gap-2 items-center" +
+		(function () {
+			switch (post.medias.length) {
+				case 1:
+					return "grid-rows-1 grid-cols-1";
+				case 2:
+					return "grid-rows-2 grid-cols-1";
+				default:
+					return "grid-rows-2 grid-cols-2";
+			}
+		})();
+
 	return (
-		<div
-			className={`w-1/2 bg-[white] rounded-[10px] ml-[10%] p-[20px] my-${props.firstChild ? "[0px]" : "[50px]"} shadow-md`}
-		>
+		<div className={`flex flex-col bg-[white] rounded-[10px] p-[15px] gap-3 shadow-md`}>
 			{/* User */}
-			<div className="flex items-center">
+			<div className="flex items-center gap-3">
 				<img
 					className="w-[50px] rounded-full"
-					src={props.information.author.avatarURL}
-					alt={`${props.information.author.username}'s Avatar`}
+					src={post.author.avatarURL}
+					alt={`${post.author.username}'s Avatar`}
 				/>
-				<p className="text-[20px] ml-[15px] text-[rgb(68,68,68)]">
-					{props.information.author.username}
-				</p>
+				<p className="text-[20px] text-[rgb(68,68,68)]">{post.author.username}</p>
 			</div>
 
-			<hr className="-mx-[20px] mt-[10px]" />
-			{/* <hr className="-mx-[20px] mt-[10px] h-[2px] bg-black" /> */}
+			<p className="text-[rgb(76,76,76)] ">{post.text}</p>
 
-			{/* Title */}
-			<p className="text-[rgb(76,76,76)] my-[20px]">{props.information.text}</p>
-
-			<div
-				className={`grid gap-4 ${
-					props.information.medias.length === 1
-						? "grid-rows-1 grid-cols-1"
-						: props.information.medias.length === 2
-							? "grid-rows-1 grid-cols-2"
-							: props.information.medias.length === 3
-								? "grid-rows-2 grid-cols-2"
-								: "grid-rows-2 grid-cols-2"
-				} h-[90%]`}
-			>
-				{props.information.medias.map((media, index) => {
+			<div className={mediaClassName}>
+				{post.medias.map((media, index) => {
 					if (index >= 4) {
 						return;
 					}
 
+					const rounded = (function () {
+						switch (index) {
+							case 0:
+								return "rounded-tl-2xl";
+							case 1:
+								return "rounded-tr-2xl";
+							case 2:
+								return "rounded-bl-2xl";
+							case 3:
+								return "rounded-br-2xl";
+						}
+					})();
+
 					if (isImage(media))
 						return (
-							<div className="relative" key={index}>
-								<img
-									className={`${
-										props.information.medias.length === 3 && index === 2
-											? "col-start-1 col-end-3"
-											: "w-full h-full"
-									} object-cover`}
-									src={media}
-								/>
-								<div
-									className={`cursor-pointer absolute inset-0 bg-black ${props.information.medias.length > 4 && index == 3 ? "bg-opacity-50" : "bg-opacity-0 hover:bg-opacity-20"} transition-opacity flex justify-center items-center`}
-									style={{ transition: "0.1s" }}
-								>
-									<p className="text-white text-[50px]">
-										{props.information.medias.length > 4 && index == 3
-											? `${props.information.medias.length - index - 1}+`
-											: ""}
-									</p>
-								</div>
+							<div
+								className={`relative max-w-[200px] max-h-[200px] ${rounded} hover:brightness-75 overflow-hidden cursor-pointer transition-all duration-150`}
+								key={index}
+								style={{
+									transform: "translate3d(0px, 0px, 0.1px)",
+								}}
+								onClick={() => console}
+							>
+								<img className={`w-full h-full object-cover ${rounded} ${post.medias.length > 4 && index == 3 && "brightness-50"} pointer-events-none`} src={media} />
+								
+								<span className="absolute z-50 text-[35px] text-white top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] pointer-events-none">
+									{index === 3 && post.medias.length > 4 && `+${post.medias.length - 4}`}
+								</span>
 							</div>
 						);
 					else if (isVideo(media)) {
-                        // ...
+						// ...
 					}
 				})}
 			</div>
 
 			{/* More */}
-			<div className="flex justify-between my-[20px] text-[30px] items-center">
-				<div className="flex items-center">
+			<div className="flex justify-between items-center">
+				<div className="flex items-center text-[30px] gap-2 text-[#FF973D]">
 					{isLike ? (
-						<FcLike
-							className="cursor-pointer hover:text-[35px] transition-all duration-150"
-							onClick={likeButton}
-						></FcLike>
+						<button
+							className="cursor-pointer hover:scale-[115%] transition-all duration-150"
+							onClick={handleLike}
+						>
+							<FaHeart></FaHeart>
+						</button>
 					) : (
-						<FaRegHeart
-							className="cursor-pointer hover:text-[35px] transition-all duration-150"
-							onClick={likeButton}
-						></FaRegHeart>
+						<button
+							className="cursor-pointer hover:scale-[115%] transition-all duration-150"
+							onClick={handleLike}
+						>
+							<FaRegHeart></FaRegHeart>
+						</button>
 					)}
 
-					<p className="ml-[10px]">{likes}</p>
+					<span className="text-[20px] text-black">{likes}</span>
 				</div>
-				<div className="flex items-center">
-					<button className="hover:bg-[#E7E7E7] p-[10px] rounded-full mx-[5px] transition-all duration-150">
-						<IoChatboxEllipsesOutline></IoChatboxEllipsesOutline>
+
+				<div className="flex items-center gap-2 text-[34px] text-[hsl(0,0%,18%)]">
+					<button className="hover:bg-[#E7E7E7] p-[10px] rounded-full transition-all duration-150">
+						<IoChatbox />
 					</button>
 
-					<button className="hover:bg-[#E7E7E7] p-[10px] rounded-full mx-[5px] transition-all duration-150">
-						<IoIosShareAlt></IoIosShareAlt>
+					<button className="hover:bg-[#E7E7E7] p-[10px] rounded-full transition-all duration-150">
+						<IoIosShareAlt />
 					</button>
 
-					<button className="hover:bg-[#E7E7E7] p-[10px] rounded-full mx-[5px] transition-all duration-150">
-						<IoReorderThreeOutline className="text-[36px]"></IoReorderThreeOutline>
+					<button className="hover:bg-[#E7E7E7] p-[10px] rounded-full transition-all duration-150">
+						<HiDotsHorizontal />
 					</button>
 				</div>
 			</div>
