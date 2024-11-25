@@ -17,48 +17,19 @@ function isImage(name) {
 	return IMAGE_EXTENSIONS.some((ext) => name.endsWith(ext));
 }
 
-function roundedForImageAndVideo(index, NumberOfMedias) {
-	const paramaterRounded = "2xl";
-	switch(NumberOfMedias) {
-		case 1:
-			return `rounded-${paramaterRounded}`;
-		
-		case 2:
-			switch (index) {
-				case 0:
-					return `rounded-tl-${paramaterRounded} rounded-bl-${paramaterRounded}`;
-
-				case 1:
-					return `rounded-tr-${paramaterRounded} rounded-br-${paramaterRounded}`;
-			}
-
-		case 3:
-			switch (index) {
-				case 0:
-					return `rounded-tl-${paramaterRounded}`;
-				case 1:
-					return `rounded-tr-${paramaterRounded}`;
-				case 2:
-					return `rounded-bl-${paramaterRounded} rounded-br-${paramaterRounded}`;
-			}
-
-		default:
-			switch (index) {
-				case 0:
-					return `rounded-tl-${paramaterRounded}`;
-				case 1:
-					return `rounded-tr-${paramaterRounded}`;
-				case 2:
-					return `rounded-bl-${paramaterRounded}`;
-				case 3:
-					return `rounded-br-${paramaterRounded}`;
-			}
-	}
+function getMediaSize(length) {
+	return `w-full max-h-[${length === 1 ? 400 : 200}px]`;
 }
 
-function resizeForImage(index, NumberOfMedias) {
-	if (NumberOfMedias === 1) return "w-full max-h-[600px]";
-	else if (NumberOfMedias === 3 && index === 2) return "w-full max-h-[300px]";
+function getMediaGrid(length) {
+	switch (length) {
+		case 1:
+			return "grid-rows-1 grid-cols-1";
+		case 2:
+			return "grid-rows-1 grid-cols-2";
+		default:
+			return "grid-rows-2 grid-cols-2";
+	}
 }
 
 export default function Article({ post }) {
@@ -75,18 +46,8 @@ export default function Article({ post }) {
 		}
 	}
 
-	const mediaClassName =
-		"w-full grid gap-2 items-center" +
-		(function () {
-			switch (post.medias.length) {
-				case 1:
-					return "grid-rows-1 grid-cols-1";
-				case 2:
-					return "grid-rows-1 grid-cols-2";
-				default:
-					return "grid-rows-2 grid-cols-2";
-			}
-		})();
+	const mediaSize = getMediaSize(post.medias.length);
+	const mediaGrid = getMediaGrid(post.medias.length);
 
 	return (
 		<div className={`w-[400px] flex flex-col bg-[white] rounded-[10px] p-[15px] gap-3 shadow-md`}>
@@ -102,29 +63,26 @@ export default function Article({ post }) {
 
 			<p className="text-[rgb(76,76,76)] ">{post.text}</p>
 
-			<div className={mediaClassName}>
+			<div className={`w-full grid gap-2 ${mediaGrid} rounded-xl overflow-hidden`}>
 				{post.medias.map((media, index) => {
 					if (index >= 4) {
 						return;
 					}
-					
-					// Border Radius
-					const rounded = roundedForImageAndVideo(index, post.medias.length);
-					const sizeIndex = resizeForImage(index, post.medias.length);
 
 					if (isImage(media))
 						return (
 							<div
-								// className={`relative max-w-[200px] max-h-[200px] ${rounded} hover:brightness-75 overflow-hidden cursor-pointer transition-all duration-150`}
-								className={`relative ${sizeIndex} ${rounded} hover:brightness-75 overflow-hidden cursor-pointer transition-all duration-150 
-									${(index === 2 && post.medias.length === 3) ? "col-start-1 col-end-3" : ""}`}
+								className={`relative ${mediaSize} ${index === 2 && post.medias.length === 3 && "col-start-1 col-end-3"} hover:brightness-75 cursor-pointer transition-all duration-150`}
 								key={index}
 								style={{
 									transform: "translate3d(0px, 0px, 0.1px)",
 								}}
-								onClick={() => console}>
-								<img className={`w-full h-full object-cover ${rounded} ${post.medias.length > 4 && index == 3 && "brightness-50"} pointer-events-none`} src={media} />
-								
+							>
+								<img
+									className={`w-full h-full object-cover ${post.medias.length > 4 && index == 3 && "brightness-50"} pointer-events-none`}
+									src={media}
+								/>
+
 								<span className="absolute z-50 text-[35px] text-white top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] pointer-events-none">
 									{index === 3 && post.medias.length > 4 && `+${post.medias.length - 4}`}
 								</span>

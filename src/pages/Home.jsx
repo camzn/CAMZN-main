@@ -17,7 +17,7 @@ export default function Home() {
 		],
 		likes: 10,
 		isLike: false,
-		comment: [],
+		comments: [],
 	};
 
 	return (
