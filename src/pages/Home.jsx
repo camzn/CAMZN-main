@@ -1,6 +1,14 @@
 import Article from "../components/Article";
 
 export default function Home() {
+	const ElonMusk = {
+		name : "Elon Musk",
+		// Avatar Elon Musk 
+		avatar : "https://cafefcdn.com/thumb_w/640/203337114487263232/2024/11/24/avatar1732435179820-1732435180765633761931.jpg",
+		msg : "Nguyen Tien Dat, you are so wibu",
+		media : "",
+	}
+
 	const post = {
 		author: {
 			username: "Nguyễn Tiến Đạt",
@@ -15,7 +23,37 @@ export default function Home() {
 			"/images/img4.jpg",
 			"/images/img5.jpg",
 		],
-		likes: 10,
+		likes: 50,
+		isLike: false,
+		comments: [],
+	};
+
+	const post2 = {
+		author: {
+			username: "Bill Gate",
+			status: "Online",
+
+			// Avatar Bill Gate
+			avatarURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Bill_Gates_2018.jpg/500px-Bill_Gates_2018.jpg",
+		},
+		text: "I wish I was richer than Elon Musk :(",
+		medias: [],
+		likes: 10000,
+		isLike: false,
+		comments: [],
+	};
+
+	const post3 = {
+		author: {
+			username: "Elon Musk",
+			status: "Online",
+
+			// Avatar Elon Musk
+			avatarURL: "https://cafefcdn.com/thumb_w/640/203337114487263232/2024/11/24/avatar1732435179820-1732435180765633761931.jpg",
+		},
+		text: "I wish I was pooper than Bill Gate :(",
+		medias: [],
+		likes: 100000,
 		isLike: false,
 		comments: [],
 	};
@@ -24,8 +62,8 @@ export default function Home() {
 		<div className="">
 			<div className="flex flex-col gap-10 items-center justify-center">
 				<Article post={post}></Article>
-				<Article post={post}></Article>
-				<Article post={post}></Article>
+				<Article post={post2}></Article>
+				<Article post={post3}></Article>
 				<Article post={post}></Article>
 				<Article post={post}></Article>
 				<Article post={post}></Article>
