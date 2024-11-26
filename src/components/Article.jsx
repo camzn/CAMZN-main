@@ -17,10 +17,6 @@ function isImage(name) {
 	return IMAGE_EXTENSIONS.some((ext) => name.endsWith(ext));
 }
 
-function getMediaSize(length) {
-	return `w-full max-h-[${length === 1 ? 400 : 200}px]`;
-}
-
 function getMediaGrid(length) {
 	switch (length) {
 		case 1:
@@ -46,7 +42,6 @@ export default function Article({ post }) {
 		}
 	}
 
-	const mediaSize = getMediaSize(post.medias.length);
 	const mediaGrid = getMediaGrid(post.medias.length);
 
 	return (
@@ -58,12 +53,12 @@ export default function Article({ post }) {
 					src={post.author.avatarURL}
 					alt={`${post.author.username}'s Avatar`}
 				/>
-				<p className="text-[20px] text-[rgb(68,68,68)]">{post.author.username}</p>
+				<p className="text-[20px] text-[rgb(68,68,68)]">{post.author.displayName}</p>
 			</div>
 
 			<p className="text-[rgb(76,76,76)] ">{post.text}</p>
 
-			<div className={`w-full grid gap-2 ${mediaGrid} rounded-xl overflow-hidden`}>
+			<div className={`w-full h-[360px] grid gap-2 ${mediaGrid} rounded-xl overflow-hidden`}>
 				{post.medias.map((media, index) => {
 					if (index >= 4) {
 						return;
@@ -72,7 +67,7 @@ export default function Article({ post }) {
 					if (isImage(media))
 						return (
 							<div
-								className={`relative ${mediaSize} ${index === 2 && post.medias.length === 3 && "col-start-1 col-end-3"} hover:brightness-75 cursor-pointer transition-all duration-150`}
+								className={`relative ${index === 2 && post.medias.length === 3 && "col-start-1 col-end-3"} hover:brightness-75 cursor-pointer transition-all duration-150`}
 								key={index}
 								style={{
 									transform: "translate3d(0px, 0px, 0.1px)",
