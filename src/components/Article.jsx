@@ -83,6 +83,8 @@ export default function Article({ post }) {
 								</span>
 							</div>
 						);
+
+					// Video Post
 					else if (isVideo(media)) {
 						// ...
 					}

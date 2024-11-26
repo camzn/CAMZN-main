@@ -21,12 +21,12 @@ export default function Home() {
 		<div className="">
 			<div className="flex flex-col gap-10 items-center justify-center">
 				<Article post={post}></Article>
-				{/* <Article post={post}></Article>
 				<Article post={post}></Article>
 				<Article post={post}></Article>
 				<Article post={post}></Article>
 				<Article post={post}></Article>
-				<Article post={post}></Article> */}
+				<Article post={post}></Article>
+				<Article post={post}></Article>
 			</div>
 
 			{/* Online, Notification, post articles */}
