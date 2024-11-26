@@ -17,6 +17,44 @@ function isImage(name) {
 	return IMAGE_EXTENSIONS.some((ext) => name.endsWith(ext));
 }
 
+function getMediaSize(index, NumberOfMedias) {
+	if (NumberOfMedias === 1) return "w-full max-h-[600px]";
+	else if (NumberOfMedias === 3 && index === 2) return "w-full max-h-[300px]";
+}
+
+function getLikesText(Likes) {
+	let lengthOfLikes = Math.floor(Math.log10(Likes)) + 1;
+
+	let result = "";
+
+	// console.log(Math.pow(10, ));
+	while (lengthOfLikes >= 4) {
+		let divisor;
+
+		// [4,6]
+		if (lengthOfLikes >= 4 && lengthOfLikes <= 6) {
+			result = "K" + result;
+			divisor = 3;
+		}
+		// [7,9]
+		else if (lengthOfLikes >= 7 && lengthOfLikes <= 9) {
+			result = "M" + result;
+			divisor = 6;
+		}
+		// [10, +inf]
+		else if (lengthOfLikes >= 10) {
+			result = "B" + result;
+			divisor = 9;
+		}
+
+		Likes = Math.floor(Likes / Math.pow(10, divisor));
+		lengthOfLikes = Math.floor(Math.log10(Likes)) + 1;
+	}
+
+	return `${Likes}${result}`;
+
+}
+
 function getMediaGrid(length) {
 	switch (length) {
 		case 1:
@@ -49,14 +87,14 @@ export default function Article({ post }) {
 			{/* User */}
 			<div className="flex items-center gap-3 w-full">
 				<img
-					className="w-[50px] rounded-full"
+					className="w-[50px] h-[50px] object-cover rounded-full"
 					src={post.author.avatarURL}
 					alt={`${post.author.username}'s Avatar`}
 				/>
 				<p className="text-[20px] text-[rgb(68,68,68)]">{post.author.displayName}</p>
 			</div>
 
-			<p className="text-[rgb(76,76,76)] w-full">{post.text}</p>
+			<p className="text-[rgb(76,76,76)] text-[20px]">{post.text}</p>
 
 			<div className={`max-w-[375px] max-h-[375px] grid gap-2 ${mediaGrid}`}>
 				{post.medias.map((media, index) => {
@@ -110,7 +148,7 @@ export default function Article({ post }) {
 						</button>
 					)}
 
-					<span className="text-[20px] text-black">{likes}</span>
+					<span className="text-[20px] text-black">{getLikesText(likes)}</span>
 				</div>
 
 				<div className="flex items-center gap-2 text-[34px] text-[hsl(0,0%,18%)]">
