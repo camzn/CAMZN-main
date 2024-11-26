@@ -1,4 +1,5 @@
 import Article from "../components/Article";
+import { getUser } from "../utils/api";
 
 export default function Home() {
 	const ElonMusk = {
@@ -10,11 +11,7 @@ export default function Home() {
 	}
 
 	const post = {
-		author: {
-			username: "Nguyễn Tiến Đạt",
-			status: "Online",
-			avatarURL: "/images/avatar.jpg",
-		},
+		author: getUser(),
 		text: "<3",
 		medias: [
 			"/images/img1.jpg",

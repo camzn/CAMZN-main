@@ -80,24 +80,23 @@ export default function Article({ post }) {
 		}
 	}
 
-	const mediaSize = getMediaSize(post.medias.length);
 	const mediaGrid = getMediaGrid(post.medias.length);
 
 	return (
-		<div className={`w-[400px] flex flex-col bg-[white] rounded-[10px] p-[15px] gap-3 shadow-md`}>
+		<div className={`w-[400px] flex flex-col bg-[white] rounded-[10px] p-[15px] items-center gap-3 shadow-md`}>
 			{/* User */}
-			<div className="flex items-center gap-3">
+			<div className="flex items-center gap-3 w-full">
 				<img
 					className="w-[50px] h-[50px] object-cover rounded-full"
 					src={post.author.avatarURL}
 					alt={`${post.author.username}'s Avatar`}
 				/>
-				<p className="text-[20px] text-[rgb(68,68,68)]">{post.author.username}</p>
+				<p className="text-[20px] text-[rgb(68,68,68)]">{post.author.displayName}</p>
 			</div>
 
 			<p className="text-[rgb(76,76,76)] text-[20px]">{post.text}</p>
 
-			<div className={`w-full grid gap-2 ${mediaGrid} rounded-xl overflow-hidden`}>
+			<div className={`max-w-[375px] max-h-[375px] grid gap-2 ${mediaGrid}`}>
 				{post.medias.map((media, index) => {
 					if (index >= 4) {
 						return;
@@ -106,14 +105,14 @@ export default function Article({ post }) {
 					if (isImage(media))
 						return (
 							<div
-								className={`relative ${mediaSize} ${index === 2 && post.medias.length === 3 && "col-start-1 col-end-3"} hover:brightness-75 cursor-pointer transition-all duration-150`}
+								className={`relative ${index === 2 && post.medias.length === 3 && "col-start-1 col-end-3"} hover:brightness-75 cursor-pointer transition-all duration-150 rounded-xl overflow-hidden`}
 								key={index}
 								style={{
 									transform: "translate3d(0px, 0px, 0.1px)",
 								}}
 							>
 								<img
-									className={`w-full h-full object-cover ${post.medias.length > 4 && index == 3 && "brightness-50"} pointer-events-none`}
+									className={`w-full h-full object-cover ${post.medias.length > 4 && index == 3 && "brightness-50"} pointer-events-none `}
 									src={media}
 								/>
 
@@ -131,7 +130,7 @@ export default function Article({ post }) {
 			</div>
 
 			{/* More */}
-			<div className="flex justify-between items-center">
+			<div className="flex justify-between items-center w-full">
 				<div className="flex items-center text-[30px] gap-2 text-[#FF973D]">
 					{isLike ? (
 						<button

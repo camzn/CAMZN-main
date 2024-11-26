@@ -1,24 +1,12 @@
 /* eslint-disable react/prop-types */
-import { forwardRef, useState, Children, cloneElement, useEffect, useRef } from "react";
+import { createContext, forwardRef, useContext, useEffect, useRef, useState } from "react";
 
-export const Root = forwardRef(function DropdownRoot({ className, children }, ref) {
+const DropdownContext = createContext(null);
+
+export const Root = forwardRef(function DropdownRoot({ className, children, direction }, ref) {
 	const [isOpen, setOpen] = useState(false);
-	
+
 	const selfRef = useRef(null);
-
-	let trigger;
-	let content;
-
-	Children.forEach(children, function (child) {
-		switch (child.type.render?.name) {
-			case "DropdownTrigger":
-				trigger = child;
-				break;
-			case "DropdownContent":
-				content = child;
-				break;
-		}
-	});
 
 	useEffect(
 		function () {
@@ -51,46 +39,50 @@ export const Root = forwardRef(function DropdownRoot({ className, children }, re
 		[isOpen, setOpen, ref, selfRef],
 	);
 
+	let flexDirection = "col";
+
+	if (direction === "right" || direction === "left") {
+		flexDirection = "row";
+	}
+
 	return (
-		<div
-			ref={selfRef}
-			className={`flex flex-row ${className}`}
-		>
-			<div onClick={() => setOpen(!isOpen)}>{trigger}</div>
-			{isOpen && (
-				<div className="flex relative h-full items-center">
-					{cloneElement(content, { closeMenu: () => setOpen(false) })}
-				</div>
-			)}
-		</div>
+		<DropdownContext.Provider value={{ isOpen, setOpen, direction }}>
+			<div
+				ref={selfRef}
+				className={`flex flex-${flexDirection} ${direction === ""} items-center ${className}`}
+			>
+				{children}
+			</div>
+		</DropdownContext.Provider>
 	);
 });
 
 export const Trigger = forwardRef(function DropdownTrigger({ className, children }, ref) {
+	const { isOpen, setOpen } = useContext(DropdownContext);
+
 	return (
-		<button ref={ref} className={`${className}`}>
+		<button ref={ref} className={`${className}`} onClick={() => setOpen(!isOpen)}>
 			{children}
 		</button>
 	);
 });
 
-export const Content = forwardRef(function DropdownContent(
-	{ className, children, closeMenu },
-	ref,
-) {
-	children = Children.map(children, (child) => cloneElement(child, { closeMenu }));
+export const Content = forwardRef(function DropdownContent({ className, children }, ref) {
+	const { isOpen } = useContext(DropdownContext);
 
 	return (
-		<div ref={ref} className={`absolute z-[100] left-4 ${className}`}>
+		<div ref={ref} className={`${!isOpen && "hidden"} left-2 z-[100] ${className}`}>
 			{children}
 		</div>
 	);
 });
 
 export const Item = forwardRef(function DropdownItem(
-	{ className, children, onClick, closeOnSelect, closeMenu },
+	{ className, children, onClick, closeOnSelect },
 	ref,
 ) {
+	const { setOpen } = useContext(DropdownContext);
+
 	return (
 		<div
 			ref={ref}
@@ -99,7 +91,7 @@ export const Item = forwardRef(function DropdownItem(
 				await onClick?.();
 
 				if (closeOnSelect) {
-					closeMenu();
+					setOpen(false);
 				}
 			}}
 		>
