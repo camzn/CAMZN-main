@@ -24,7 +24,7 @@ function App() {
 			<div className="flex flex-row relative justify-between w-full h-screen bg-[#F3F3F3] overflow-hidden">
 				<Sidebar />
 
-				<div className="w-full h-full m-2 overflow-x-auto">
+				<div className="w-full h-full m-2 overflow-y-auto overflow-x-hidden">
 					<div className="w-full h-full"><Outlet /></div>
 				</div>
 			</div>
