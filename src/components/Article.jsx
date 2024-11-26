@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoChatbox } from "react-icons/io5";
 import { IoIosShareAlt } from "react-icons/io";
 import { HiDotsHorizontal } from "react-icons/hi";
+
+import AppContext from "../contexts/App";
 
 const VIDEO_EXTENSIONS = [".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".mp4"];
 const IMAGE_EXTENSIONS = [".gif", ".jpg", ".jpeg", ".png"];
@@ -62,6 +64,8 @@ function getMediaGrid(length) {
 }
 
 export default function Article({ post }) {
+	const { isDarkMode } = useContext(AppContext);
+
 	let [likes, setLikes] = useState(post.likes);
 	let [isLike, setIsLikes] = useState(post.isLike);
 
@@ -78,7 +82,7 @@ export default function Article({ post }) {
 	const mediaGrid = getMediaGrid(post.medias.length);
 
 	return (
-		<div className={`w-[400px] flex flex-col bg-[white] rounded-[10px] p-[15px] items-center gap-3 shadow-md`}>
+		<div className={`w-[400px] flex flex-col ${isDarkMode ? "bg-dark-3 text-white" :"bg-[white]"} rounded-[10px] p-[15px] items-center gap-3 shadow-md`}>
 			{/* User */}
 			<div className="flex items-center gap-3 w-full">
 				<img
@@ -86,12 +90,12 @@ export default function Article({ post }) {
 					src={post.author.avatarURL}
 					alt={`${post.author.username}'s Avatar`}
 				/>
-				<p className="text-[20px] text-[rgb(68,68,68)]">{post.author.displayName}</p>
+				<p className={`text-[20px] ${!isDarkMode && "text-[rgb(68,68,68)]"}`}>{post.author.displayName}</p>
 			</div>
 
-			<p className="text-[rgb(76,76,76)] text-[20px] w-full">{post.text}</p>
+			<p className={`${!isDarkMode && "text-[rgb(76,76,76)]"} text-[20px] w-full`}>{post.text}</p>
 
-			{Boolean(post.medias.length) && <div className={`max-w-[375px] max-h-[375px] grid gap-2 ${mediaGrid}`}>
+			<div className={`max-w-[375px] max-h-[375px] grid gap-2 ${mediaGrid} ${!post.medias.length && "hidden"}`}>
 				{post.medias.map((media, index) => {
 					if (index >= 4) {
 						return;
@@ -122,7 +126,7 @@ export default function Article({ post }) {
 						// ...
 					}
 				})}
-			</div>}
+			</div>
 
 			{/* More */}
 			<div className="flex justify-between items-center w-full">
@@ -143,19 +147,19 @@ export default function Article({ post }) {
 						</button>
 					)}
 
-					<span className="text-[20px] text-black">{getLikesText(likes)}</span>
+					<span className={`text-[20px] ${isDarkMode ? "text-white" : "text-black"}`}>{getLikesText(likes)}</span>
 				</div>
 
-				<div className="flex items-center gap-2 text-[34px] text-[hsl(0,0%,18%)]">
-					<button className="hover:bg-[#E7E7E7] p-[10px] rounded-full transition-all duration-150">
+				<div className={`flex items-center gap-2 text-[34px] ${isDarkMode ? "text-white" : "text-[hsl(0,0%,18%)]"}`}>
+					<button className={`hover:bg-[#E7E7E7]${isDarkMode && "/10"} p-[10px] rounded-full transition-all duration-150`}>
 						<IoChatbox />
 					</button>
 
-					<button className="hover:bg-[#E7E7E7] p-[10px] rounded-full transition-all duration-150">
+					<button className={`hover:bg-[#E7E7E7]${isDarkMode && "/10"} p-[10px] rounded-full transition-all duration-150`}>
 						<IoIosShareAlt />
 					</button>
 
-					<button className="hover:bg-[#E7E7E7] p-[10px] rounded-full transition-all duration-150">
+					<button className={`hover:bg-[#E7E7E7]${isDarkMode && "/10"} p-[10px] rounded-full transition-all duration-150`}>
 						<HiDotsHorizontal />
 					</button>
 				</div>
