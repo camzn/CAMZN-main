@@ -41,15 +41,15 @@ export const Root = forwardRef(function DropdownRoot({ className, children, dire
 
 	let flexDirection = "col";
 
-	if (direction === "right" || direction === "left") {
-		flexDirection = "row";
-	}
+	// if (direction === "right" || direction === "left") {
+	// 	flexDirection = "row";
+	// }
 
 	return (
 		<DropdownContext.Provider value={{ isOpen, setOpen, direction }}>
 			<div
 				ref={selfRef}
-				className={`flex flex-${flexDirection} ${direction === ""} items-center ${className}`}
+				className={`flex relative flex-${flexDirection} ${direction === ""} items-center ${className}`}
 			>
 				{children}
 			</div>
@@ -71,7 +71,7 @@ export const Content = forwardRef(function DropdownContent({ className, children
 	const { isOpen } = useContext(DropdownContext);
 
 	return (
-		<div ref={ref} className={`${!isOpen && "hidden"} left-2 z-[100] ${className}`}>
+		<div ref={ref} className={`${!isOpen && "hidden"} absolute -bottom-0 right-0 translate-x-[102%] z-[100] ${className}`}>
 			{children}
 		</div>
 	);
