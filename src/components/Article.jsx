@@ -22,6 +22,17 @@ function getMediaSize(index, NumberOfMedias) {
 	else if (NumberOfMedias === 3 && index === 2) return "w-full max-h-[300px]";
 }
 
+function getMediaGrid(length) {
+	switch (length) {
+		case 1:
+			return "grid-rows-1 grid-cols-1";
+		case 2:
+			return "grid-rows-1 grid-cols-2";
+		default:
+			return "grid-rows-2 grid-cols-2";
+	}
+}
+
 export default function Article({ post }) {
 	let [likes, setLikes] = useState(post.likes);
 	let [isLike, setIsLikes] = useState(post.isLike);
@@ -36,18 +47,8 @@ export default function Article({ post }) {
 		}
 	}
 
-	const mediaClassName =
-		"w-full grid gap-2 items-center" +
-		(function () {
-			switch (post.medias.length) {
-				case 1:
-					return "grid-rows-1 grid-cols-1";
-				case 2:
-					return "grid-rows-1 grid-cols-2";
-				default:
-					return "grid-rows-2 grid-cols-2";
-			}
-		})();
+	const mediaSize = getMediaSize(post.medias.length);
+	const mediaGrid = getMediaGrid(post.medias.length);
 
 	return (
 		<div className={`w-[400px] flex flex-col bg-[white] rounded-[10px] p-[15px] gap-3 shadow-md`}>
@@ -63,28 +64,26 @@ export default function Article({ post }) {
 
 			<p className="text-[rgb(76,76,76)] ">{post.text}</p>
 
-			<div className={`${mediaClassName} rounded-[10px] overflow-hidden`}>
+			<div className={`w-full grid gap-2 ${mediaGrid} rounded-xl overflow-hidden`}>
 				{post.medias.map((media, index) => {
 					if (index >= 4) {
 						return;
 					}
-					
-					// Border Radius
-					const sizeIndex = getMediaSize(index, post.medias.length);
-					
-					// Images post
+
 					if (isImage(media))
 						return (
 							<div
-								className={`relative ${sizeIndex} hover:brightness-75 overflow-hidden cursor-pointer transition-all duration-150 
-									${(index === 2 && post.medias.length === 3) ? "col-start-1 col-end-3" : ""}`}
+								className={`relative ${mediaSize} ${index === 2 && post.medias.length === 3 && "col-start-1 col-end-3"} hover:brightness-75 cursor-pointer transition-all duration-150`}
 								key={index}
 								style={{
 									transform: "translate3d(0px, 0px, 0.1px)",
 								}}
-								onClick={() => console.log("Hello world")}>
-								<img className={`w-full h-full object-cover ${post.medias.length > 4 && index == 3 && "brightness-50"} pointer-events-none`} src={media} />
-								
+							>
+								<img
+									className={`w-full h-full object-cover ${post.medias.length > 4 && index == 3 && "brightness-50"} pointer-events-none`}
+									src={media}
+								/>
+
 								<span className="absolute z-50 text-[35px] text-white top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] pointer-events-none">
 									{index === 3 && post.medias.length > 4 && `+${post.medias.length - 4}`}
 								</span>

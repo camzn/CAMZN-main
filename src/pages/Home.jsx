@@ -13,11 +13,11 @@ export default function Home() {
 			"/images/img2.jpg",
 			"/images/img3.jpg",
 			"/images/img4.jpg",
-			// "/images/img5.jpg",
+			"/images/img5.jpg",
 		],
 		likes: 10,
 		isLike: false,
-		comment: [],
+		comments: [],
 	};
 
 	return (
