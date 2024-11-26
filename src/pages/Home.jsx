@@ -13,7 +13,7 @@ export default function Home() {
 			"/images/img2.jpg",
 			"/images/img3.jpg",
 			"/images/img4.jpg",
-			"/images/img5.jpg",
+			// "/images/img5.jpg",
 		],
 		likes: 10,
 		isLike: false,
@@ -24,12 +24,12 @@ export default function Home() {
 		<div className="">
 			<div className="flex flex-col gap-10 items-center justify-center">
 				<Article post={post}></Article>
-				{/* <Article post={post}></Article>
 				<Article post={post}></Article>
 				<Article post={post}></Article>
 				<Article post={post}></Article>
 				<Article post={post}></Article>
-				<Article post={post}></Article> */}
+				<Article post={post}></Article>
+				<Article post={post}></Article>
 			</div>
 
 			{/* Online, Notification, post articles */}
