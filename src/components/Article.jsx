@@ -17,11 +17,6 @@ function isImage(name) {
 	return IMAGE_EXTENSIONS.some((ext) => name.endsWith(ext));
 }
 
-function getMediaSize(index, NumberOfMedias) {
-	if (NumberOfMedias === 1) return "w-full max-h-[600px]";
-	else if (NumberOfMedias === 3 && index === 2) return "w-full max-h-[300px]";
-}
-
 function getLikesText(Likes) {
 	let lengthOfLikes = Math.floor(Math.log10(Likes)) + 1;
 
@@ -94,9 +89,9 @@ export default function Article({ post }) {
 				<p className="text-[20px] text-[rgb(68,68,68)]">{post.author.displayName}</p>
 			</div>
 
-			<p className="text-[rgb(76,76,76)] text-[20px]">{post.text}</p>
+			<p className="text-[rgb(76,76,76)] text-[20px] w-full">{post.text}</p>
 
-			<div className={`max-w-[375px] max-h-[375px] grid gap-2 ${mediaGrid}`}>
+			{Boolean(post.medias.length) && <div className={`max-w-[375px] max-h-[375px] grid gap-2 ${mediaGrid}`}>
 				{post.medias.map((media, index) => {
 					if (index >= 4) {
 						return;
@@ -127,7 +122,7 @@ export default function Article({ post }) {
 						// ...
 					}
 				})}
-			</div>
+			</div>}
 
 			{/* More */}
 			<div className="flex justify-between items-center w-full">
